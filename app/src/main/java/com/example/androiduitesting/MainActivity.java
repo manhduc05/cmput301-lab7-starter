@@ -13,6 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     // Declare the variables so that you will be able to reference it later.
     ListView cityList;
     EditText newName;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -43,26 +45,47 @@ public class MainActivity extends AppCompatActivity {
 
         final Button addButton = findViewById(R.id.button_add);
         addButton.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View v) {
                 nameField.setVisibility(View.VISIBLE);
             }
+
         });
 
         final Button confirmButton = findViewById(R.id.button_confirm);
         confirmButton.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View v) {
                 String cityName = newName.getText().toString();
                 cityAdapter.add(cityName);
                 newName.getText().clear();
                 nameField.setVisibility(View.INVISIBLE);
+
             }
         });
 
         final Button deleteButton = findViewById(R.id.button_clear);
         deleteButton.setOnClickListener(new View.OnClickListener() {
+
             public void onClick(View v) {
                 cityAdapter.clear();
             }
+
         });
+
+        cityList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                String selectedCity = cityAdapter.getItem(position);
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, ShowActivity.class);
+                intent.putExtra("CITY_NAME", selectedCity);
+                startActivity(intent);
+
+            }
+
+        });
+
     }
+
 }
